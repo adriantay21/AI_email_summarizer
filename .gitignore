@@ -1,3 +1,6 @@
 credentials.json
 emails.json
 emails_last_48_hours.json
+.env
+token.json
+output.html
