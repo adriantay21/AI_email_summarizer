@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from bs4 import BeautifulSoup
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/gmail.readonly"]
+SCOPES = ["https://www.googleapis.com/auth/gmail.modify"]
 
 def get_email_content(msg_data):
     """Extracts all text parts of the email (HTML and plain text) and cleans the output."""
@@ -74,12 +74,12 @@ def main():
         # Calculate the date range for the last 48 hours
         now = datetime.utcnow()
         two_days_ago = now - timedelta(hours=48)
-        query = f"after:{int(two_days_ago.timestamp())}"
+        query = f"to:me after:{int(two_days_ago.timestamp())}"
 
         # Fetch the emails
         results = service.users().messages().list(userId="me", q=query).execute()
         messages = results.get("messages", [])
-
+        print(messages)
         if not messages:
             print("No messages found.")
             return
@@ -91,9 +91,10 @@ def main():
         for msg in messages:
             msg_data = service.users().messages().get(userId="me", id=msg["id"]).execute()
             headers = msg_data["payload"]["headers"]
+            print(headers)
             date = next(header["value"] for header in headers if header["name"] == "Date")
-            sender = next(header["value"] for header in headers if header["name"] == "From")
             subject = next(header["value"] for header in headers if header["name"] == "Subject")
+            sender = next((header["value"] for header in headers if header["name"] == "From"))
             sender_email = sender.split()[-1].strip('<>')
 
             # If filter is set, skip emails not matching the filter list

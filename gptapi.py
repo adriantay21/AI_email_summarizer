@@ -63,97 +63,101 @@ def query_gpt(instruction, message, temperature, model, response_format):
 
     return answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost
 
+def summarize_emails():
+    index = 0
+    emails_dict = {}
+    emails_dict_list = []
+    for email in emails:
+        index += 1
+        email_content = str(email['Content'])  
+        email_content = re.sub(r'[^\w\s]', '', email_content)
+        sender = email['Sender'] 
+        email_content = "Content: " + email_content
+        answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost = query_gpt(
+            summarizer_system_prompt, email_content, 0.4, "gpt-4o", summary_format
+        )
+        print(answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost)
 
-index = 0
-emails_dict = {}
-emails_dict_list = []
-for email in emails:
-    index += 1
-    email_content = str(email['Content'])  
-    email_content = re.sub(r'[^\w\s]', '', email_content)
-    sender = email['Sender'] 
-    email_content = "Content: " + email_content
-    answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost = query_gpt(
-        summarizer_system_prompt, email_content, 0.4, "gpt-4o", summary_format
-    )
-    print(answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost)
+        answer_dict = json.loads(answer)
 
-    answer_dict = json.loads(answer)
+        for key in answer_dict:
+            answer_dict[key] = [
+                s if s.strip().lower() == "No updates related to this section" else s + f"({sender})"
+                for s in answer_dict[key]
+            ]
+        emails_dict_list.append(answer_dict)
+    
+    keys = emails_dict_list[0].keys()
 
-    for key in answer_dict:
-        answer_dict[key] = [
-            s if s.strip().lower() == "there were no updates related to this section" else s + f"({sender})"
-            for s in answer_dict[key]
-        ]
-    emails_dict_list.append(answer_dict)
+    for key in keys:
+        combined_list = []
+        for d in emails_dict_list:
+            combined_list.extend(d[key])
+        if "There were no updates related to this section" in combined_list and len(combined_list) > 1:
+            combined_list = [item for item in combined_list if item != "There were no updates related to this section"]
+        emails_dict[key] = combined_list
 
-
-
-
-
-keys = emails_dict_list[0].keys()
-
-
-for key in keys:
-    combined_list = []
-    for d in emails_dict_list:
-        combined_list.extend(d[key])
-    if "There were no updates related to this section" in combined_list and len(combined_list) > 1:
-        combined_list = [item for item in combined_list if item != "There were no updates related to this section"]
-    emails_dict[key] = combined_list
-
-print(emails_dict)
-
-section_titles = {
-    "economic_news": "Economic News",
-    "personal_finance": "Personal Finance",
-    "technology_and_science": "Technology & Science",
-    "financial_news": "Financial News",
-    "cryptocurrency_news": "Cryptocurrency News",
-    "other": "Other News"
-}
-
-html_content = '''<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>News Report</title>
-  <link rel="stylesheet" href="https://stackedit.io/style.css">
-</head>
-
-<body class="stackedit">
-  <div class="stackedit__html">
-'''
+    return emails_dict
 
 
-for key in section_titles:
-    html_content += f'    <h1 id="{key.replace("_", "-")}">{section_titles[key]}</h1>\n'
-    html_content += '    <ul>\n'
+def process_html(emails_dict):
 
-    for item in emails_dict.get(key, ["There were no updates related to this section"]):
-        html_content += '      <li>\n'
+    section_titles = {
+        "economic_news": "Economic News",
+        "personal_finance": "Personal Finance",
+        "technology_and_science": "Technology & Science",
+        "financial_news": "Financial News",
+        "cryptocurrency_news": "Cryptocurrency News",
+        "other": "Other News"
+    }
 
-        if item.strip().lower() == "there were no updates related to this section":
-            html_content += '        <p>There were no updates related to this section.</p>\n'
-        else:
-            # Split the item into a headline and content if applicable
-            if ':' in item:
-                headline, content = item.split(':', 1)
-                html_content += f'        <p><strong>{headline.strip()}:</strong>{content.strip()}</p>\n'
+    html_content = '''<!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Report</title>
+    <link rel="stylesheet" href="https://stackedit.io/style.css">
+    </head>
+
+    <body class="stackedit">
+    <div class="stackedit__html">
+    '''
+
+
+    for key in section_titles:
+        html_content += f'    <h1 id="{key.replace("_", "-")}">{section_titles[key]}</h1>\n'
+        html_content += '    <ul>\n'
+
+        for item in emails_dict.get(key, ["There were no updates related to this section"]):
+            html_content += '      <li>\n'
+
+            if item.strip().lower() == "there were no updates related to this section":
+                html_content += '        <p>There were no updates related to this section.</p>\n'
             else:
-                html_content += f'        <p>{item.strip()}</p>\n'
+                # Split the item into a headline and content if applicable
+                if ':' in item:
+                    headline, content = item.split(':', 1)
+                    html_content += f'        <p><strong>{headline.strip()}:</strong>{content.strip()}</p>\n'
+                else:
+                    html_content += f'        <p>{item.strip()}</p>\n'
 
-        html_content += '      </li>\n'
+            html_content += '      </li>\n'
 
-    html_content += '    </ul>\n\n'
+        html_content += '    </ul>\n\n'
 
-html_content += '  </div>\n</body>\n\n</html>'
+    html_content += '  </div>\n</body>\n\n</html>'
 
-with open(f"C:\\Users\\adria\\OneDrive\\Desktop\\Github repos\\AI_email_summarizer\\output.html", 'w', encoding='utf-8') as file:
-    file.write(html_content)
+    with open(f"C:\\Users\\adria\\OneDrive\\Desktop\\Github repos\\AI_email_summarizer\\output.html", 'w', encoding='utf-8') as file:
+        file.write(html_content)
 
-print("HTML content has been written to 'output.html'.")
+    print("HTML content has been written to 'output.html'.")
 
+def main():
+    emails_dict = summarize_emails()
+    return process_html(emails_dict)
+    
 
+if __name__ == '__main__':
+    main()
