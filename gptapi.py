@@ -81,8 +81,9 @@ def summarize_emails():
         answer_dict = json.loads(answer)
 
         for key in answer_dict:
+            # Append sender to updates, but not to no update messages
             answer_dict[key] = [
-                s if s.strip().lower() == "No updates related to this section" else s + f"({sender})"
+                s if "updates related to this section" in s.strip().lower() else s + f" ({sender})"
                 for s in answer_dict[key]
             ]
         emails_dict_list.append(answer_dict)
@@ -93,12 +94,17 @@ def summarize_emails():
         combined_list = []
         for d in emails_dict_list:
             combined_list.extend(d[key])
-        if "There were no updates related to this section" in combined_list and len(combined_list) > 1:
-            combined_list = [item for item in combined_list if item != "There were no updates related to this section"]
+        # Remove duplicates
+        combined_list = list(set(combined_list))
+        # Check if all items are 'no updates' messages
+        if all("updates related to this section" in item.strip().lower() for item in combined_list):
+            combined_list = ["There were no updates related to this section."]
+        else:
+            # Remove any 'no updates' messages
+            combined_list = [item for item in combined_list if "updates related to this section" not in item.strip().lower()]
         emails_dict[key] = combined_list
 
     return emails_dict
-
 
 def process_html(emails_dict):
 
@@ -125,12 +131,15 @@ def process_html(emails_dict):
     <div class="stackedit__html">
     '''
 
-
     for key in section_titles:
         html_content += f'    <h1 id="{key.replace("_", "-")}">{section_titles[key]}</h1>\n'
         html_content += '    <ul>\n'
 
-        for item in emails_dict.get(key, ["There were no updates related to this section"]):
+        items = emails_dict.get(key, ["There were no updates related to this section"])
+        if not items:
+            items = ["There were no updates related to this section"]
+        
+        for item in items:
             html_content += '      <li>\n'
 
             if item.strip().lower() == "there were no updates related to this section":
