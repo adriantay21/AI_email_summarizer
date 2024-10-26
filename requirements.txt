@@ -1,0 +1,7 @@
+pydantic 
+openai 
+beautifulsoup4 
+google 
+google_auth_oauthlib 
+python-email  
+google-api-python-client

@@ -3,19 +3,29 @@ from openai import OpenAI
 import os
 import re
 from pydantic import BaseModel
-import dotenv
 
-dotenv.load_dotenv()
+if os.path.exists("openaikey.json"):
+    with open("openaikey.json", "r") as f:
+        os.environ["OPENAI_API_KEY"] = json.load(f)["token"]
+
 client = OpenAI()
 
-# Load the emails from the JSON file
-with open("C:\\Users\\adria\\OneDrive\\Desktop\\Github repos\\AI_email_summarizer\\emails_last_48_hours.json", "r",encoding="utf-8") as file:
+# Get the directory of the current script
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Use os.path.join for cross-platform compatibility
+emails_path = os.path.join(current_dir, "emails_last_48_hours.json")
+summarizer_prompt_path = os.path.join(current_dir, "summarizer_system_prompt.txt")
+
+with open(emails_path, "r", encoding="utf-8") as file:
     emails = json.load(file)
 
 # Read the summarizer system prompt
-with open("C:\\Users\\adria\\OneDrive\\Desktop\\Github repos\\AI_email_summarizer\\summarizer_system_prompt.txt", "r", encoding="utf-8") as file:
+with open(summarizer_prompt_path, "r", encoding="utf-8") as file:
     summarizer_system_prompt = file.read()
-    
+
+
+
 class summary_format(BaseModel):
     economic_news: list[str]
     personal_finance: list[str]
