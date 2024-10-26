@@ -71,9 +71,9 @@ def main():
         # Call the Gmail API
         service = build("gmail", "v1", credentials=creds)
 
-        # Calculate the date range for the last 48 hours
+        # Calculate the date range for the last 49 hours (to account for runtime)
         now = datetime.utcnow()
-        two_days_ago = now - timedelta(hours=48)
+        two_days_ago = now - timedelta(hours=49)
         query = f"to:me after:{int(two_days_ago.timestamp())}"
 
         # Fetch the emails

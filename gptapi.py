@@ -3,6 +3,7 @@ from openai import OpenAI
 import os
 import re
 from pydantic import BaseModel
+from datetime import datetime
 
 if os.path.exists("openaikey.json"):
     with open("openaikey.json", "r") as f:
@@ -82,6 +83,14 @@ def summarize_emails():
         email_content = str(email['Content'])  
         email_content = re.sub(r'[^\w\s]', '', email_content)
         sender = email['Sender'] 
+
+        date = email['Date']
+        # Remove the timezone abbreviation in parentheses
+        date = re.sub(r'\s*\([A-Z]+\)$', '', date)
+        parsed_date = datetime.strptime(date, '%a, %d %b %Y %H:%M:%S %z')
+        formatted_date = parsed_date.strftime('%m/%d')
+        date = formatted_date
+        
         email_content = "Content: " + email_content
         answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost = query_gpt(
             summarizer_system_prompt, email_content, 0.4, "gpt-4o", summary_format
@@ -93,7 +102,7 @@ def summarize_emails():
         for key in answer_dict:
             # Append sender to updates, but not to no update messages
             answer_dict[key] = [
-                s if "updates related to this section" in s.strip().lower() else s + f" ({sender})"
+                s if "updates related to this section" in s.strip().lower() else s + f" ({sender} - {date})"
                 for s in answer_dict[key]
             ]
         emails_dict_list.append(answer_dict)

@@ -6,7 +6,8 @@ from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
-import datetime
+from datetime import date, timedelta
+import re
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.modify']
 
@@ -54,7 +55,7 @@ def main():
 
     sender_email = 'testingapi17@gmail.com'
     receiver_email = 'adriantay21@gmail.com'
-    email_subject = 'Summarizer Test'
+    email_subject = 'GPT News Digest for ' + (date.today() - timedelta(days=1)).strftime('%m/%d/%y')
 
     html_file_path = 'C:\\Users\\adria\OneDrive\\Desktop\\Github repos\\AI_email_summarizer\\output.html'
 

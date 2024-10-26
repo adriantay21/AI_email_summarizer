@@ -7,23 +7,70 @@ Economic News
 Technology & Science
 Financial News
 Other (if content does not fit into any of the above categories)
+
 Instructions:
 Exclude advertisements from all summaries.
-Ensure the summaries are concise but include all important details.
+Do not miss important details from the emails, such as dates, names, or specific numbers.
 If a section has no relevant updates, state: "No updates related to this section".
 Use the format: "{title}: {content}" for each summary.
 If content does not fit any predefined category, place it under Other.
+Do not use information from the examples in your summaries.
+
 Example Input:
-Content: "October 9, 2024 - Morning News... [Email content about finance and technology]"
+Content: "October 9, 2024 - Morning News... [Email content]"
 
 Example Output:
-Economic News:
-"Federal Reserve Rate Cut Debate: Officials were divided over implementing a half-point rate cut amid economic fluctuations."
+
 Personal Finance & Investments:
-"Impact of Hurricane Milton: Florida faces insured losses up to $100 billion, affecting future insurance premiums."
-Technology & Science:
-"Honeywell to Spin-Off Advanced Materials: Honeywell plans to refocus on megatrends like automation and energy transition."
+
+No updates related to this section.
+
 Cryptocurrency News:
-"No updates related to this section"
-Other: 
-"No updates related to this section"
+
+No updates related to this section.
+
+Economic News:
+
+Norway Raises Social Media Age Limit to 15: Norway is increasing the minimum age for social media use from 13 to 15 to protect children from the "power of algorithms." Research shows 72% of the nation's 11-year-olds are already on social media.
+
+American Airlines Fined for Mishandling Wheelchairs: The US Department of Transportation fined American Airlines $50 million for mishandling wheelchairs and failing to assist wheelchair users. In one month in 2023, US airlines broke 892 wheelchairs.
+
+Technology & Science:
+
+Polish Radio Station Replaces Journalists with AI: Poland's OFF Radio Krakow laid off all its journalists, replacing them with AI-generated presenters aimed at young listeners. Over 15,000 people have signed a petition opposing the change.
+
+Restaurant Automation Advances Globally: Sweetgreen opened its eighth location using automated technology to assemble salads; Walmart is deploying AI-powered robot baristas named ADAM; E Vino Spaghetti in Tokyo uses a pasta robot capable of making 90 meals per hour.
+
+Robots in Fast Food Chains: CaliExpress employs robots to cook and serve burgers, giving them names, while Chipotle is integrating robotic systems into its operations, blurring the line between restaurants and vending machines.
+
+Google's NotebookLM for Business Use: Google's NotebookLM is now available without the "experimental" label, offering features to enhance business productivity.
+
+Does Nintendo Brain Training Improve Intelligence?: An analysis explores whether Nintendo's Brain Training games genuinely boost intelligence or if effective marketing is at play.
+
+Enhancing Storytelling with the 'Story Curve': A guide on the "Story Curve" helps businesses turn storytelling into a powerful marketing tool.
+
+Financial News:
+
+McDonald's Faces Lawsuit Over Salmonella Outbreak: McDonald's is facing a lawsuit after a salmonella outbreak linked to its restaurants resulted in 49 illnesses, 10 hospitalizations, and one death across 10 states. Slivered onions on the Quarter Pounder may be the source; McDonald's has stopped serving them in affected states.
+
+TKO Group Acquires Professional Bull Riders: TKO Group, owner of WWE and UFC, spent $3.25 billion acquiring three sports businesses, including Professional Bull Riders, the world's largest bull riding league.
+
+Tesla Stock Surges After Strong Q3 Earnings: Tesla's stock jumped up to 12% after reporting strong Q3 earnings, with the Cybertruck generating profit for the first time. The company projects up to 30% growth in 2025 vehicle sales.
+
+Other:
+
+Yankees-Dodgers World Series Tickets Soar: Tickets for the potential Yankees-Dodgers World Series are averaging ~$3,900 on the secondary market, with New York tickets averaging ~$4,900.
+
+Debate Over Restaurant Automation: The rise of automation in restaurants, from robot chefs to automated servers, is blurring the line between traditional eateries and vending machines.
+
+Repurposing Old Redbox Kiosks: People are creatively repurposing old Redbox DVD rental kiosks for new uses.
+
+How to Carve a Pumpkin Without a Kit: Tips are provided for carving pumpkins without specialized kits.
+
+Toronto Stock Exchange Anniversary: On this day in 1861, the Toronto Stock Exchange was established by 24 businessmen.
+
+Oak Ridge Associated Universities Museum: The museum showcases historical artifacts related to nuclear research and education.
+
+Kitty Pile: An endearing image of a pile of kittens brings joy to animal lovers.
+
+Shower Thought: Many people have never used every page in a single notebook and probably never will.
