@@ -1,13 +1,12 @@
 import sys
 import time
 from datetime import timedelta
-from quickstart import main as fetch_emails
 from gptapi import summarize_emails, process_html
 from sendemail import main as send_summary_email
-
+from emailAPI import main as fetch_emails
 def run_main_script():
     try:
-        print("Fetching emails with quickstart.py...")
+        print("Fetching emails with emailAPI.py...")
         fetch_emails()
         print("Emails fetched successfully.\n")
 

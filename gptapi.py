@@ -78,6 +78,7 @@ def summarize_emails():
     index = 0
     emails_dict = {}
     emails_dict_list = []
+    batch_emails = []
     for email in emails:
         index += 1
         email_content = str(email['Content'])  
@@ -92,6 +93,8 @@ def summarize_emails():
         date = formatted_date
         
         email_content = "Content: " + email_content
+        batch_emails.append(email_content)
+        # 
         answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost = query_gpt(
             summarizer_system_prompt, email_content, 0.4, "gpt-4o", summary_format
         )
