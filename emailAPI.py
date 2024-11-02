@@ -124,10 +124,9 @@ def last_48_hours(email_data):
 def filter_by_sender(email_data):
 
     filter_emails = []
-    if os.path.exists("emails.json"):
-        with open("emails.json", "r") as f:
-            filter_emails = json.load(f)
-
+    filter_emails = os.getenv("FILTER_EMAILS")
+    print(filter_emails)
+    filter_emails = [email.strip() for email in filter_emails.split(',')]
     filtered_emails = []
     for email in email_data:
         if filter_emails and email["Sender_email"].lower() not in [email.lower() for email in filter_emails]:

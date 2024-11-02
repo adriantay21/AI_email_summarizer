@@ -12,6 +12,9 @@ def run_main_script():
 
         print("Summarizing emails with gptapi.py...")
         emails_summary = summarize_emails()
+        print("Emails summarized successfully.\n")
+
+        print("Generating HTML...")
         process_html(emails_summary)
         print("Emails summarized and HTML generated.\n")
 

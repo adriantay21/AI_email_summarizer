@@ -39,16 +39,16 @@ def send_email(sender_email, receiver_email, email_subject, html_content):
 
 def main():
 
-    sender_email = email_address
-    receiver_email = receiver_email
     email_subject = 'GPT News Digest for ' + (date.today() - timedelta(days=1)).strftime('%m/%d/%y')
 
     html_file_path = 'output.html'
 
     with open(html_file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
-
-    send_email(sender_email, receiver_email, email_subject, html_content)
+    try:
+        send_email(email_address, receiver_email, email_subject, html_content)
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 if __name__ == '__main__':
     main()
