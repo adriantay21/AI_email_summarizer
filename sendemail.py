@@ -9,6 +9,7 @@ dotenv.load_dotenv()
 smtp_server = os.getenv('SMTP_SERVER')
 email_address = os.getenv('EMAIL_ADDRESS')
 email_password = os.getenv('EMAIL_PASSWORD')
+receiver_email = os.getenv('RECEIVER_EMAIL')
 # Connect to the SMTP server
 def send_email(sender_email, receiver_email, email_subject, html_content):
 
@@ -39,7 +40,7 @@ def send_email(sender_email, receiver_email, email_subject, html_content):
 def main():
 
     sender_email = email_address
-    receiver_email = 'adriantay21@gmail.com'
+    receiver_email = receiver_email
     email_subject = 'GPT News Digest for ' + (date.today() - timedelta(days=1)).strftime('%m/%d/%y')
 
     html_file_path = 'output.html'
