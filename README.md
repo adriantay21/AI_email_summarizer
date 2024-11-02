@@ -54,7 +54,7 @@ FILTER_EMAILS="email1@email.com,email2@email.com,email3@email.com"
 To run using docker:
 ```sh
 docker pull adriantay21/aiemailsummarizer
-docker run -d --name my_container_name adriantay21/dockerimage
+docker run -d --name my_container_name adriantay21/aiemailsummarizer
 ```
 
 
