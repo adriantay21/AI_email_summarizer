@@ -19,14 +19,14 @@
 
 ## Key Features
 
-* Pulls and filters emails from the past 48 hours
-* Summarizes the email content using the GPT API and categorizes the summarized content
-* Reformat the summarized content as html
-* Send the html content to a personal mailbox
+* Email Retrieval and Filtering: Automatically pulls and filters emails from the past 48 hours.
+* AI-Powered Summarization and Categorization: Utilizes the GPT API to generate concise summaries of each email and organizes them by category.
+* HTML Formatting: Converts summarized content into well-structured HTML for easy reading.
+* Email Delivery: Sends the formatted HTML summaries directly to a designated personal mailbox.
 
 ## How To Use
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. You also need to provide your own OPENAI api key, IMAP and SMTP server addresses.
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. You also need to provide your own OpenAI api key, IMAP and SMTP server addresses.
 
 From your command line:
 ```sh
@@ -34,20 +34,21 @@ From your command line:
 git clone https://github.com/adriantay21/AI_email_summarizer
 
 # Go into the repository
-cd electron-markdownify
+cd AI_email_summarizer
 
 # Install required packages
 pip install requirements.txt
 ```
 
-Set these variables in your .env file
-```sh
+Set these variables in your .env file:
+```bash
 OPENAI_API_KEY=APIKEY
 EMAIL_ADDRESS=email@email.com
 EMAIL_PASSWORD=password
 IMAP_SERVER=imap.xxx.com
 SMTP_SERVER=smtp.xxx.com
 RECEIVER_EMAIL=email@email.com
+FILTER_EMAILS="email1@email.com,email2@email.com,email3@email.com"
 ```
 
 To run using docker:
