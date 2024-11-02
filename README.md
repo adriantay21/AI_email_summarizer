@@ -26,7 +26,7 @@
 
 ## How To Use
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. You also need to provide your own OpenAI api key, IMAP/SMTP server addresses and your login credentials.
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Python](https://www.python.org/downloads/) installed on your computer. You also need to provide your own OpenAI api key, IMAP/SMTP server addresses, and your login credentials.
 
 From your command line:
 ```sh
