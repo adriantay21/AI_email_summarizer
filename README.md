@@ -38,6 +38,9 @@ cd AI_email_summarizer
 
 # Install required packages
 pip install requirements.txt
+
+# Run the program
+python main.py
 ```
 
 Set these variables in your .env file:
