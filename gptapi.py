@@ -71,8 +71,6 @@ def query_gpt(instruction, message, temperature, model, response_format):
     prompt_tokens = usage['prompt_tokens']
     input_tokens_cost = prompt_tokens * input_pricing
     output_tokens_cost = completion_tokens * output_pricing
-    print(answer)
-    breakpoint()
     return answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost
 
 def summarize_emails():
