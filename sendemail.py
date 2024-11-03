@@ -43,6 +43,9 @@ def main():
 
     html_file_path = 'output.html'
 
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    html_file_path = os.path.join(current_dir, html_file_path)
+
     with open(html_file_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
     try:
