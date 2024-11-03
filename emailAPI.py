@@ -7,6 +7,7 @@ import os
 from datetime import datetime, timedelta
 import pytz
 import re
+from dateutil import parser
 
 dotenv.load_dotenv()
 
@@ -112,13 +113,15 @@ def main():
 
 def last_48_hours(email_data):
     current_time = datetime.now(pytz.UTC)
-    last_48_hours = current_time - timedelta(hours=49)
+    last_48_hours = current_time - timedelta(hours=49) # 1 hour to account for processing time
     filtered_emails = []
     for email in email_data:
-        date_string = re.sub(r'\s*\(UTC\)$', '', email['Date'])
-        email_date = datetime.strptime(date_string, '%a, %d %b %Y %H:%M:%S %z').astimezone(pytz.UTC)
-        if email_date > last_48_hours:
-            filtered_emails.append(email)
+        try:
+            email_date = parser.parse(email['Date']).astimezone(pytz.UTC)
+            if email_date > last_48_hours:
+                filtered_emails.append(email)
+        except ValueError:
+            print(f"Warning: Could not parse date: {email['Date']}")
     return filtered_emails
 
 def filter_by_sender(email_data):
