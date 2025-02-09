@@ -34,4 +34,6 @@ def countdown(hours):
 if __name__ == "__main__":
     while True:
         run_main_script()
+
         countdown(48)  # Wait for 48 hours before running again
+

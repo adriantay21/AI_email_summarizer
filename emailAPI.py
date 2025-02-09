@@ -15,7 +15,6 @@ dotenv.load_dotenv()
 imap_server = os.getenv("IMAP_SERVER")
 email_address = os.getenv("EMAIL_ADDRESS")
 email_password = os.getenv("EMAIL_PASSWORD")
-
 def main():
     mail = imaplib.IMAP4_SSL(imap_server)
 
@@ -25,7 +24,9 @@ def main():
     mail.select('inbox')
 
     # Search for emails
-    status, data = mail.search(None, 'ALL')
+    date_since = (datetime.now() - timedelta(days=7)).strftime("%d-%b-%Y")
+    status, data = mail.search(None, f'(SINCE "{date_since}")')
+    # status, data = mail.search(None, 'ALL')
 
     # Get the list of email IDs
     email_ids = data[0].split()
@@ -74,7 +75,6 @@ def main():
 
         # Initialize the content variable
         content = ''
-
         # Extract the email content
         if email_message.is_multipart():
             # Try to extract 'text/html' content first

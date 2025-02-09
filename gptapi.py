@@ -4,10 +4,11 @@ import os
 import re
 from pydantic import BaseModel
 from datetime import datetime
+import dotenv
 
-if os.path.exists("openaikey.json"):
-    with open("openaikey.json", "r") as f:
-        os.environ["OPENAI_API_KEY"] = json.load(f)["token"]
+dotenv.load_dotenv()
+api_key = os.getenv("OPENAI_API_KEY")
+
 
 client = OpenAI()
 
@@ -145,11 +146,8 @@ def process_html(emails_dict):
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Report</title>
-    <link rel="stylesheet" href="https://stackedit.io/style.css">
+    <link rel="stylesheet" href="./style.css">
     </head>
-
-    <body class="stackedit">
-    <div class="stackedit__html">
     '''
 
     for key in section_titles:

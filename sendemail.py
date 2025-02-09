@@ -10,6 +10,7 @@ smtp_server = os.getenv('SMTP_SERVER')
 email_address = os.getenv('EMAIL_ADDRESS')
 email_password = os.getenv('EMAIL_PASSWORD')
 receiver_email = os.getenv('RECEIVER_EMAIL')
+
 # Connect to the SMTP server
 def send_email(sender_email, receiver_email, email_subject, html_content):
 
@@ -22,17 +23,16 @@ def send_email(sender_email, receiver_email, email_subject, html_content):
     server.login(email_address, email_password)
 
     message = MIMEMultipart()
+
     message['From'] = sender_email
     message['To'] = receiver_email
     message['Subject'] = email_subject
-    html = MIMEText(html_content, 'html')
-    # According to RFC 2046, the last part of a multipart message, in this case
-    # the HTML message, is best and preferred.
-    message.attach(html)
 
+    message.attach(MIMEText(html_content, 'html'))
     # Send the email
     server.sendmail(sender_email, receiver_email, message.as_string())
 
+    print(f'Email sent successfully to {receiver_email}')
     # Close the connection to the SMTP server
     server.quit()
 
