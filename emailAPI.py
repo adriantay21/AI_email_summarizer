@@ -121,7 +121,9 @@ def main():
     email_data = filter_by_sender(email_data)
 
     # Write the filtered emails to a JSON file
-    with open("emails_last_48_hours.json", "w", encoding="utf-8") as json_file:
+    script_dir = os.path.dirname(__file__)
+    file_path = os.path.join(script_dir, "emails_last_48_hours.json")
+    with open(file_path, "w", encoding="utf-8") as json_file:
         json.dump(email_data, json_file, indent=4, ensure_ascii=False)
 
     print("Emails from the last 48 hours have been written to 'emails_last_48_hours.json'.")
