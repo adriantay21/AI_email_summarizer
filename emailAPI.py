@@ -15,6 +15,7 @@ dotenv.load_dotenv()
 imap_server = os.getenv("IMAP_SERVER")
 email_address = os.getenv("EMAIL_ADDRESS")
 email_password = os.getenv("EMAIL_PASSWORD")
+
 def main():
     mail = imaplib.IMAP4_SSL(imap_server)
 
@@ -26,7 +27,7 @@ def main():
     # Search for emails
     date_since = (datetime.now() - timedelta(days=7)).strftime("%d-%b-%Y")
     status, data = mail.search(None, f'(SINCE "{date_since}")')
-    # status, data = mail.search(None, 'ALL')
+    print("Login status: ", status)
 
     # Get the list of email IDs
     email_ids = data[0].split()
@@ -121,12 +122,11 @@ def main():
     email_data = filter_by_sender(email_data)
 
     # Write the filtered emails to a JSON file
-    script_dir = os.path.dirname(__file__)
-    file_path = os.path.join(script_dir, "emails_last_48_hours.json")
-    with open(file_path, "w", encoding="utf-8") as json_file:
+    with open("emails_last_48_hours.json", "w", encoding="utf-8") as json_file:
         json.dump(email_data, json_file, indent=4, ensure_ascii=False)
 
     print("Emails from the last 48 hours have been written to 'emails_last_48_hours.json'.")
+    return email_data
 
 def last_48_hours(email_data):
     current_time = datetime.now(pytz.UTC)

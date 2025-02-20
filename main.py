@@ -7,11 +7,11 @@ from emailAPI import main as fetch_emails
 def run_main_script():
     try:
         print("Fetching emails with emailAPI.py...")
-        fetch_emails()
+        email_data = fetch_emails()
         print("Emails fetched successfully.\n")
 
         print("Summarizing emails with gptapi.py...")
-        emails_summary = summarize_emails()
+        emails_summary = summarize_emails(email_data)
         print("Emails summarized successfully.\n")
 
         print("Generating HTML...")

@@ -16,11 +16,7 @@ client = OpenAI()
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # Use os.path.join for cross-platform compatibility
-emails_path = os.path.join(current_dir, "emails_last_48_hours.json")
 summarizer_prompt_path = os.path.join(current_dir, "summarizer_system_prompt.txt")
-
-with open(emails_path, "r", encoding="utf-8") as file:
-    emails = json.load(file)
 
 # Read the summarizer system prompt
 with open(summarizer_prompt_path, "r", encoding="utf-8") as file:
@@ -74,12 +70,12 @@ def query_gpt(instruction, message, temperature, model, response_format):
     output_tokens_cost = completion_tokens * output_pricing
     return answer, prompt_tokens, completion_tokens, input_tokens_cost, output_tokens_cost
 
-def summarize_emails():
+def summarize_emails(email_data):
     index = 0
     emails_dict = {}
     emails_dict_list = []
     batch_emails = []
-    for email in emails:
+    for email in email_data:
         index += 1
         email_content = str(email['Content'])  
         email_content = re.sub(r'[^\w\s]', '', email_content)
